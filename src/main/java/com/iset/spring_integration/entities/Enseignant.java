@@ -28,4 +28,12 @@ public class Enseignant extends Developpeur {
     public void setCoursCrees(List<Cours> coursCrees) {
         this.coursCrees = coursCrees;
     }
+
+    public Set<String> getBadges() {
+        return badges;
+    }
+
+    public void setBadges(Set<String> badges) {
+        this.badges = badges;
+    }
 }

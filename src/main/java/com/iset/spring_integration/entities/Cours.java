@@ -21,4 +21,7 @@ public class Cours {
 
     @Column(name = "language", nullable = false)
     private String language;
+
+    @OneToMany(mappedBy = "cours", cascade = CascadeType.ALL)
+    private List<Chapitre> chapitres;
 }

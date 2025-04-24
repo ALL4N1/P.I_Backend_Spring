@@ -14,5 +14,13 @@ import java.util.List;
 public class Developpeur extends Utilisateur {
     @Column(nullable = false)
     @ColumnDefault("false")
-    private Boolean isBanned;
+    private boolean isBanned;
+
+    public boolean getIsBanned() {
+        return isBanned;
+    }
+
+    public void setIsBanned(boolean banned) {
+        isBanned = banned;
+    }
 }

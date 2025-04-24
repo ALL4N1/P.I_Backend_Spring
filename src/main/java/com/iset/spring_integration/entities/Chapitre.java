@@ -24,5 +24,6 @@ public class Chapitre {
     @JoinColumn(name = "cours_id", nullable = false)
     private Cours cours;
 
+
 }
 
