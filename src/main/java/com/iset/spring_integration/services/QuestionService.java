@@ -25,7 +25,7 @@ public class QuestionService {
                 .orElseThrow(() -> new EntityNotFoundException("Question non trouvée"));
 
         question.setContenu(newQuestion.getContenu());
-        question.setBonneReponseIndex(newQuestion.getBonneReponseIndex());
+        question.setBonneReponse(newQuestion.getBonneReponse());
         question.setReponses(newQuestion.getReponses());
         return questionRepository.save(question);
     }

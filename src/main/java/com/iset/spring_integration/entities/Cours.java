@@ -22,55 +22,7 @@ public class Cours {
     @OneToMany(mappedBy = "cours", cascade = CascadeType.ALL)
     private List<Report> reports;
 
-    @ManyToOne
-    @JoinColumn(name = "language_id", nullable = false)
-    private LanguageCours language;
 
-    public Long getId() {
-        return id;
-    }
-
-    public List<Report> getReports() {
-        return reports;
-    }
-
-    public void setReports(List<Report> reports) {
-        this.reports = reports;
-    }
-
-    public LanguageCours getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(LanguageCours language) {
-        this.language = language;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitre() {
-        return titre;
-    }
-
-    public void setTitre(String titre) {
-        this.titre = titre;
-    }
-
-    public String getContenu() {
-        return contenu;
-    }
-
-    public void setContenu(String contenu) {
-        this.contenu = contenu;
-    }
-
-    public Enseignant getEnseignant() {
-        return enseignant;
-    }
-
-    public void setEnseignant(Enseignant enseignant) {
-        this.enseignant = enseignant;
-    }
+    @Column(name = "language", nullable = false)
+    private String language;
 }

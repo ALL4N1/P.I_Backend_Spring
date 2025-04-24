@@ -1,64 +1,60 @@
 package com.iset.spring_integration.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.iset.spring_integration.util.JsonConverter;
 import jakarta.persistence.*;
 import lombok.Data;
-
-import java.util.List;
+import java.util.Map;
 
 @Data
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true, nullable = false)
     private String contenu;
-    private Integer bonneReponseIndex;
 
-    @ManyToOne
-    @JoinColumn(name = "test_id", nullable = false)
-    private TestRecrutement testRecrutement;
+    @Column(nullable = false)
+    private String bonneReponse;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
-    private List<Reponse> reponses; // Liste des choix de réponses
+    @Column(columnDefinition = "json", nullable = true)
+    @Convert(converter = JsonConverter.class)
+    private Map<Integer, String> reponses = null;
 
-    public Integer getBonneReponseIndex() {
-        return bonneReponseIndex;
-    }
 
-    public void setBonneReponseIndex(Integer bonneReponseIndex) {
-        this.bonneReponseIndex = bonneReponseIndex;
-    }
 
-    public TestRecrutement getTest() {
-        return testRecrutement;
-    }
-
-    public void setTest(TestRecrutement testRecrutement) {
-        this.testRecrutement = testRecrutement;
-    }
-
-    public List<Reponse> getReponses() {
-        return reponses;
-    }
-
-    public void setReponses(List<Reponse> reponses) {
-        this.reponses = reponses;
+    public Long getId() {
+        return id;
     }
 
     public String getContenu() {
         return contenu;
     }
 
-    public void setContenu(String contenu) {
-        this.contenu = contenu;
+    public String getBonneReponse() {
+        return bonneReponse;
     }
 
-    public Long getId() {
-        return id;
+    public Map<Integer, String> getReponses() {
+        return reponses;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setContenu(String contenu) {
+        this.contenu = contenu;
+    }
+
+    public void setBonneReponse(String bonneReponseIndex) {
+        this.bonneReponse = bonneReponseIndex;
+    }
+
+    public void setReponses(Map<Integer, String> reponses) {
+        this.reponses = reponses;
     }
 }

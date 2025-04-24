@@ -1,38 +1,24 @@
 package com.iset.spring_integration.entities;
 import jakarta.persistence.*;
+import lombok.Data;
+
+@Data
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "type_chapitre", discriminatorType = DiscriminatorType.STRING)
-public abstract class Chapitre {
+
+public class Chapitre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String titre;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(nullable = false)
+    private String urlChapitre;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitre() {
-        return titre;
-    }
-
-    public void setTitre(String titre) {
-        this.titre = titre;
-    }
-
-    public Cours getCours() {
-        return cours;
-    }
-
-    public void setCours(Cours cours) {
-        this.cours = cours;
-    }
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TypeChapitre typeChapitre;
 
     @ManyToOne
     @JoinColumn(name = "cours_id", nullable = false)

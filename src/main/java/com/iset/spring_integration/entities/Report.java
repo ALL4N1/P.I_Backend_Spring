@@ -15,7 +15,7 @@ public class Report {
 
     @ManyToOne
     @JoinColumn(name = "developpeur_id", nullable = false)
-    private Developpeur developpeur; // Celui qui fait le signalement
+    private Utilisateur developpeur; // Celui qui fait le signalement
 
     @ManyToOne
     @JoinColumn(name = "cours_id", nullable = false)
