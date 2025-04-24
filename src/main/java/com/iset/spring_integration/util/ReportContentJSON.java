@@ -7,12 +7,12 @@ import java.io.IOException;
 import java.util.Map;
 
 @Converter(autoApply = true)
-public class JsonConverter implements AttributeConverter<Map<Integer, String>, String> {
+public class ReportContentJSON implements AttributeConverter<Map<String, Integer>, String> {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public String convertToDatabaseColumn(Map<Integer, String> attribute) {
+    public String convertToDatabaseColumn(Map<String, Integer> attribute) {
         try {
             return objectMapper.writeValueAsString(attribute);
         } catch (JsonProcessingException e) {
@@ -22,7 +22,7 @@ public class JsonConverter implements AttributeConverter<Map<Integer, String>, S
 
     @SuppressWarnings("unchecked")
     @Override
-    public Map<Integer, String> convertToEntityAttribute(String dbData) {
+    public Map<String, Integer> convertToEntityAttribute(String dbData) {
         try {
             return objectMapper.readValue(dbData, Map.class);
         } catch (IOException e) {
@@ -30,3 +30,4 @@ public class JsonConverter implements AttributeConverter<Map<Integer, String>, S
         }
     }
 }
+

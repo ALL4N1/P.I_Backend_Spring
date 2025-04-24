@@ -14,7 +14,4 @@ import java.util.List;
 @Entity
 @DiscriminatorValue("DEVELOPPEUR")
 public class Developpeur extends Utilisateur {
-    // Ajouter des attributs spécifiques si nécessaire
-    @OneToMany(mappedBy = "developpeur", cascade = CascadeType.ALL)
-    private List<Report> reports;
 }

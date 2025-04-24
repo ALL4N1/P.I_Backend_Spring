@@ -1,7 +1,7 @@
 package com.iset.spring_integration.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.iset.spring_integration.util.JsonConverter;
+import com.iset.spring_integration.util.ResponsesJSON;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.Map;
@@ -21,7 +21,7 @@ public class Question {
     private String bonneReponse;
 
     @Column(columnDefinition = "json", nullable = true)
-    @Convert(converter = JsonConverter.class)
+    @Convert(converter = ResponsesJSON.class)
     private Map<Integer, String> reponses = null;
 
 
