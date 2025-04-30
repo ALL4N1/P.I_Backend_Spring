@@ -19,10 +19,6 @@ public class Report {
     @JoinColumn(name = "reporter_id", nullable = false)
     private Developpeur reporter; // Celui qui fait le signalement
 
-    @ManyToOne
-    @JoinColumn(name = "reported_id", nullable = false)
-    private Developpeur reported; // Le cours concerné par le problème
-
     @Column(nullable = false)
     private String reason; // Détails du problème signalé
 
@@ -34,7 +30,7 @@ public class Report {
 
     @Column(columnDefinition = "json", nullable = true)
     @Convert(converter = ReportContentJSON.class)
-    private Map<Integer, String> reportContent = null;
+    private Map<String, Integer> reportContent = null;
 
     @Enumerated(EnumType.STRING)
     private ReportStatus status; // Statut du signalement (ex. : En attente, Résolu)

@@ -19,8 +19,8 @@ public class Cours {
     @JoinColumn(name = "enseignant_id")
     private Enseignant enseignant;
 
-    @Column(name = "language", nullable = false)
-    private String language;
+    @Column(name = "subject", nullable = false)
+    private String subject;
 
     @OneToMany(mappedBy = "cours", cascade = CascadeType.ALL)
     private List<Chapitre> chapitres;

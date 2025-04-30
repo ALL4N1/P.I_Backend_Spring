@@ -11,6 +11,9 @@ public class Chapitre {
     private Long id;
 
     @Column(nullable = false)
+    private Integer placement;
+
+    @Column(nullable = false)
     private String titre;
 
     @Column(nullable = false)

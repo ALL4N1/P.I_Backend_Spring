@@ -14,13 +14,18 @@ import java.util.List;
 public class Developpeur extends Utilisateur {
     @Column(nullable = false)
     @ColumnDefault("false")
-    private boolean isBanned;
+    private Boolean isBanned;
 
-    public boolean getIsBanned() {
+    @Column(nullable = false)
+    @ColumnDefault("0")
+    private Integer warnings;
+
+
+    public Boolean getIsBanned() {
         return isBanned;
     }
 
-    public void setIsBanned(boolean banned) {
+    public void setIsBanned(Boolean banned) {
         isBanned = banned;
     }
 }

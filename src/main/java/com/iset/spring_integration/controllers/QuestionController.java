@@ -17,21 +17,27 @@ public class QuestionController {
     @Autowired
     private QuestionService questionService;
 
-    // ➕ Ajouter une nouvelle question
+    // Get All questions
+    @GetMapping("/list")
+    public ResponseEntity<List<Question>> getAllQuestions() {
+        return new ResponseEntity<>(questionService.getAllQuestions(), HttpStatus.OK);
+    }
+
+    // Ajouter une nouvelle question
     @PostMapping("/add")
     public ResponseEntity<Question> addQuestion(@RequestBody Question question) {
         Question savedQuestion = questionService.addQuestion(question);
         return new ResponseEntity<>(savedQuestion, HttpStatus.CREATED);
     }
 
-    // ✏️ Modifier une question existante
+    // Modifier une question existante
     @PutMapping("/{id}/update")
     public ResponseEntity<Question> updateQuestion(@PathVariable Long id, @RequestBody Question updated) {
         Question question = questionService.updateQuestion(id, updated);
         return new ResponseEntity<>(question, HttpStatus.OK);
     }
 
-    // 🗑️ Supprimer une question
+    // Supprimer une question
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteQuestion(@PathVariable Long id) {
         questionService.deleteQuestion(id);
