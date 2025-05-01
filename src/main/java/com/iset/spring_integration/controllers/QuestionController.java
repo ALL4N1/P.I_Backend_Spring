@@ -26,8 +26,13 @@ public class QuestionController {
     // Ajouter une nouvelle question
     @PostMapping("/add")
     public ResponseEntity<Question> addQuestion(@RequestBody Question question) {
-        Question savedQuestion = questionService.addQuestion(question);
-        return new ResponseEntity<>(savedQuestion, HttpStatus.CREATED);
+        Question savedQuestion = new Question();
+        savedQuestion.setContenu(question.getContenu());
+        savedQuestion.setReponses(question.getReponses());
+        savedQuestion.setDifficulty(question.getDifficulty());
+        savedQuestion.setBonneReponse(question.getBonneReponse());
+        savedQuestion.setTopic(question.getTopic());
+        return new ResponseEntity<>(questionService.addQuestion(savedQuestion), HttpStatus.CREATED);
     }
 
     // Modifier une question existante

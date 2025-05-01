@@ -27,7 +27,8 @@ public class QuestionService {
     public Question updateQuestion(Long id, Question newQuestion) {
         Question question = questionRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Question non trouvée"));
-
+        question.setTopic(newQuestion.getTopic());
+        question.setDifficulty(newQuestion.getDifficulty());
         question.setContenu(newQuestion.getContenu());
         question.setBonneReponse(newQuestion.getBonneReponse());
         question.setReponses(newQuestion.getReponses());
