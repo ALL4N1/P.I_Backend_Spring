@@ -17,7 +17,7 @@ public class Enseignant extends Developpeur {
     @OneToMany(mappedBy = "enseignant", cascade = CascadeType.ALL)
     private List<Cours> coursCrees;
 
-    @Column(name = "badges")
+    @Column(name = "badges", columnDefinition = "TEXT")
     @Convert(converter = StringSetConverter.class)
     private Set<String> badges = new HashSet<>();
 

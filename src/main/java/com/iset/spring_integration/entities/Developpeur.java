@@ -28,4 +28,11 @@ public class Developpeur extends Utilisateur {
     public void setIsBanned(Boolean banned) {
         isBanned = banned;
     }
+
+    public Integer getWarnings() {
+        return warnings;
+    }
+    public void setWarnings(Integer warnings) {
+        this.warnings = warnings;
+    }
 }

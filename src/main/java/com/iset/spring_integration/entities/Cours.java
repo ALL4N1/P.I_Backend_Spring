@@ -17,11 +17,59 @@ public class Cours {
 
     @ManyToOne
     @JoinColumn(name = "enseignant_id")
-    private Enseignant enseignant;
+    private Developpeur enseignant;
 
     @Column(name = "subject", nullable = false)
     private String subject;
 
     @OneToMany(mappedBy = "cours", cascade = CascadeType.ALL)
     private List<Chapitre> chapitres;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitre() {
+        return titre;
+    }
+
+    public void setTitre(String titre) {
+        this.titre = titre;
+    }
+
+    public String getContenu() {
+        return contenu;
+    }
+
+    public void setContenu(String contenu) {
+        this.contenu = contenu;
+    }
+
+    public Developpeur getEnseignant() {
+        return enseignant;
+    }
+
+    public void setEnseignant(Developpeur enseignant) {
+        this.enseignant = enseignant;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public List<Chapitre> getChapitres() {
+        return chapitres;
+    }
+
+    public void setChapitres(List<Chapitre> chapitres) {
+        this.chapitres = chapitres;
+    }
 }
