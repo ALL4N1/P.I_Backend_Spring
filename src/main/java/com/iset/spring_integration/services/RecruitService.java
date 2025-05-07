@@ -36,7 +36,7 @@ public class RecruitService {
         if (!(dev instanceof Enseignant)) {
             // Create new Enseignant
             Enseignant enseignant = new Enseignant();
-            enseignant.getBadges().add(recruit.getTestLanguage());
+            enseignant.getBadges().add(recruit.getTestSubject());
             enseignant.setEmail(dev.getEmail());
             enseignant.setNom(dev.getNom());
             enseignant.setTel(dev.getTel());
@@ -61,7 +61,7 @@ public class RecruitService {
             // 5. Finally delete the recruit
             recruitsRepo.delete(recruit);
         } else {
-            ((Enseignant) dev).getBadges().add(recruit.getTestLanguage());
+            ((Enseignant) dev).getBadges().add(recruit.getTestSubject());
             recruitsRepo.delete(recruit);
             devRepository.save(dev);
         }
@@ -82,7 +82,7 @@ public class RecruitService {
                 () -> new EntityNotFoundException("Developpeur not found"));
         PendingRecruit recruit = new PendingRecruit();
         recruit.setDeveloppeur(dev);
-        recruit.setTestLanguage(testLanguage);
+        recruit.setTestSubject(testLanguage);
         recruit.setTestScore(testScore);
         recruit.setCvUrl(cvURL);
         recruit.setSubmitDate(new Date());

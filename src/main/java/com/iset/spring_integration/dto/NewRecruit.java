@@ -2,7 +2,7 @@ package com.iset.spring_integration.dto;
 
 public class NewRecruit {
     private Long idDev;
-    private String cvUrl, testLanguage;
+    private String cvUrl, testSubject;
     private Integer testScore;
 
     public Long getIdDev() {
@@ -21,12 +21,12 @@ public class NewRecruit {
         this.cvUrl = cvUrl;
     }
 
-    public String getTestLanguage() {
-        return testLanguage;
+    public String getTestSubject() {
+        return testSubject;
     }
 
-    public void setTestLanguage(String testLanguage) {
-        this.testLanguage = testLanguage;
+    public void setTestSubject(String testSubject) {
+        this.testSubject = testSubject;
     }
 
     public Integer getTestScore() {

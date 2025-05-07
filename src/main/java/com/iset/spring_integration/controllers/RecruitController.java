@@ -26,7 +26,7 @@ public class RecruitController {
     public ResponseEntity<PendingRecruit> addRecruit(@RequestBody NewRecruit recruit){
         try {
             PendingRecruit newRecruit = recruitService.addRecruit(
-                    recruit.getIdDev(),recruit.getTestScore(),recruit.getTestLanguage(),recruit.getCvUrl());
+                    recruit.getIdDev(),recruit.getTestScore(),recruit.getTestSubject(),recruit.getCvUrl());
             return new ResponseEntity<>(newRecruit, HttpStatus.OK);
         }
         catch(Exception e){

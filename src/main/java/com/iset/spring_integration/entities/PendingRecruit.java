@@ -20,7 +20,7 @@ public class PendingRecruit {
     private Date submitDate;
 
     @Column(nullable = false)
-    private String testLanguage;
+    private String testSubject;
 
     @Column(nullable = false)
     private Integer testScore;
@@ -57,12 +57,12 @@ public class PendingRecruit {
         this.submitDate = submitDate;
     }
 
-    public String getTestLanguage() {
-        return testLanguage;
+    public String getTestSubject() {
+        return testSubject;
     }
 
-    public void setTestLanguage(String testLanguage) {
-        this.testLanguage = testLanguage;
+    public void setTestSubject(String testSubject) {
+        this.testSubject = testSubject;
     }
 
     public Integer getTestScore() {
