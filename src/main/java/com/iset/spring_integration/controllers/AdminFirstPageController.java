@@ -1,6 +1,6 @@
 package com.iset.spring_integration.controllers;
 
-import com.iset.spring_integration.services.FirstPageService;
+import com.iset.spring_integration.services.AdminFirstPageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +12,12 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
-public class FirstPageController {
+public class AdminFirstPageController {
     @Autowired
-    private FirstPageService firstPageService;
+    private AdminFirstPageService adminFirstPageService;
 
     @GetMapping("/admin_stats")
     public ResponseEntity<Map<String, Long>> adminStats() {
-        return new ResponseEntity<>(firstPageService.AdminStats(),HttpStatus.OK);
+        return new ResponseEntity<>(adminFirstPageService.AdminStats(),HttpStatus.OK);
     }
 }

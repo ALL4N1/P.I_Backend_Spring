@@ -2,14 +2,13 @@ package com.iset.spring_integration.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.iset.spring_integration.entities.*;
 import com.iset.spring_integration.repositories.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class FirstPageService {
+public class AdminFirstPageService {
     @Autowired
     private DeveloppeurRepository devRepository;
 

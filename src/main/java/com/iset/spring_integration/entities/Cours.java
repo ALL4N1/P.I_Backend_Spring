@@ -15,6 +15,8 @@ public class Cours {
     private String titre;
     private String contenu;
 
+    // private String image_url
+
     @ManyToOne
     @JoinColumn(name = "enseignant_id")
     private Developpeur enseignant;
