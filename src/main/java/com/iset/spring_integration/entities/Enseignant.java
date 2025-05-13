@@ -15,18 +15,18 @@ import java.util.Set;
 @DiscriminatorValue("ENSEIGNANT")
 public class Enseignant extends Developpeur {
     @OneToMany(mappedBy = "enseignant", cascade = CascadeType.ALL)
-    private List<Cours> coursCrees;
+    private List<Cours> coursList;
 
     @Column(name = "badges", columnDefinition = "TEXT")
     @Convert(converter = StringSetConverter.class)
     private Set<String> badges = new HashSet<>();
 
-    public List<Cours> getCoursCrees() {
-        return coursCrees;
+    public List<Cours> getCoursList() {
+        return coursList;
     }
 
-    public void setCoursCrees(List<Cours> coursCrees) {
-        this.coursCrees = coursCrees;
+    public void setCoursList(List<Cours> coursCrees) {
+        this.coursList = coursCrees;
     }
 
     public Set<String> getBadges() {
