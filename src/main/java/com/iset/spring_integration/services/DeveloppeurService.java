@@ -57,7 +57,7 @@ public class DeveloppeurService {
 
         dev = devRepository.save(dev);
 
-        List<Cours> coursList = ens.getCoursCrees();
+        List<Cours> coursList = ens.getCoursList();
         for (Cours cours : coursList) {
             cours.setEnseignant(dev);
         }

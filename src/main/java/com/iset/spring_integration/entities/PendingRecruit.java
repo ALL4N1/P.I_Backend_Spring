@@ -12,26 +12,24 @@ public class PendingRecruit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name= "recruit_id")
-    private Developpeur developpeur;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "test_id", nullable = false)
+    private Test test;
 
-    @Column(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "developer_id", nullable = false)
+    private Developpeur developer;
+
+    @Temporal(TemporalType.TIMESTAMP)
     private Date submitDate;
 
-    @Column(nullable = false)
     private String testLanguage;
+    private Double testScore; // Score sur 20
 
-    @Column(nullable = false)
-    private Integer testScore;
-
-    @Column(nullable = false)
     private String cvUrl;
 
-    @PrePersist
-    protected void onCreate() {
-        this.submitDate = new Date(); // Définir la date au moment de la création
-    }
+    @Enumerated(EnumType.STRING)
+    private RecruitStatus status;
 
     public Long getId() {
         return id;
@@ -41,12 +39,20 @@ public class PendingRecruit {
         this.id = id;
     }
 
-    public Developpeur getDeveloppeur() {
-        return developpeur;
+    public Test getTest() {
+        return test;
     }
 
-    public void setDeveloppeur(Developpeur developpeur) {
-        this.developpeur = developpeur;
+    public void setTest(Test test) {
+        this.test = test;
+    }
+
+    public Developpeur getDeveloper() {
+        return developer;
+    }
+
+    public void setDeveloper(Developpeur developer) {
+        this.developer = developer;
     }
 
     public Date getSubmitDate() {
@@ -65,11 +71,11 @@ public class PendingRecruit {
         this.testLanguage = testLanguage;
     }
 
-    public Integer getTestScore() {
+    public Double getTestScore() {
         return testScore;
     }
 
-    public void setTestScore(Integer testScore) {
+    public void setTestScore(Double testScore) {
         this.testScore = testScore;
     }
 
@@ -80,4 +86,13 @@ public class PendingRecruit {
     public void setCvUrl(String cvUrl) {
         this.cvUrl = cvUrl;
     }
+
+    public RecruitStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(RecruitStatus status) {
+        this.status = status;
+    }
 }
+

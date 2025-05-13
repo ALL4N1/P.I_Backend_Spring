@@ -3,6 +3,10 @@ package com.iset.spring_integration.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Data
 @Entity
@@ -27,6 +31,8 @@ public abstract class Utilisateur {
 
     @Column(nullable = false)
     private Integer tel;
+
+
 
     public Integer getTel() {
         return tel;
@@ -75,4 +81,5 @@ public abstract class Utilisateur {
     public void setMdp(String mdp) {
         this.mdp = mdp;
     }
+
 }

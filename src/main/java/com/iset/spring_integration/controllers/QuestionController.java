@@ -1,4 +1,4 @@
-package com.iset.spring_integration.controllers;
+/*package com.iset.spring_integration.controllers;
 
 import com.iset.spring_integration.entities.Question;
 import com.iset.spring_integration.services.QuestionService;
@@ -49,3 +49,4 @@ public class QuestionController {
         return ResponseEntity.noContent().build();
     }
 }
+*/

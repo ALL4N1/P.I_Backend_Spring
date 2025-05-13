@@ -1,4 +1,4 @@
-package com.iset.spring_integration.services;
+/*package com.iset.spring_integration.services;
 
 import com.iset.spring_integration.entities.Question;
 import com.iset.spring_integration.repositories.QuestionRepository;
@@ -43,3 +43,4 @@ public class QuestionService {
         questionRepository.deleteById(id);
     }
 }
+*/

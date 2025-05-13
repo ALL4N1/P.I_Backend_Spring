@@ -1,4 +1,4 @@
-package com.iset.spring_integration.services;
+/*package com.iset.spring_integration.services;
 
 import com.iset.spring_integration.entities.Developpeur;
 import com.iset.spring_integration.entities.Enseignant;
@@ -89,3 +89,4 @@ public class RecruitService {
         return recruitsRepo.save(recruit);
     }
 }
+*/

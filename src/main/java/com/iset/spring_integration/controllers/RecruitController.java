@@ -1,4 +1,4 @@
-package com.iset.spring_integration.controllers;
+/*package com.iset.spring_integration.controllers;
 
 import com.iset.spring_integration.dto.NewRecruit;
 import com.iset.spring_integration.entities.PendingRecruit;
@@ -62,3 +62,4 @@ public class RecruitController {
         }
     }
 }
+*/
