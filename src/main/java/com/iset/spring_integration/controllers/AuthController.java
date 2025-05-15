@@ -64,5 +64,6 @@ public class AuthController {
         Optional<Utilisateur> user = utilisateurRepository.findByEmail(email);
         return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
+
 }
 
