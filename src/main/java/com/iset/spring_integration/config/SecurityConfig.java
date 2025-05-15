@@ -49,7 +49,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize ->
                         authorize
-                                .requestMatchers("/api/**").permitAll()
+                                .requestMatchers("/api/**", "/uploads/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->
