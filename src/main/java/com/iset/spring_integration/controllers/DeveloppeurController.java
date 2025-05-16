@@ -20,13 +20,5 @@ public class DeveloppeurController {
         return ResponseEntity.ok(devService.findAll());
     }
 
-    @PostMapping("/demote")
-    public ResponseEntity<Developpeur> demoteDeveloper(@RequestBody Long id){
-        return new ResponseEntity<>(devService.demoteDev(id), HttpStatus.OK);
-    }
 
-    @PostMapping("/ban")
-    public ResponseEntity<Developpeur> toggleBanDeveloper(@RequestBody Long id){
-        return new ResponseEntity<>(devService.toggleBanDev(id), HttpStatus.OK);
-    }
 }

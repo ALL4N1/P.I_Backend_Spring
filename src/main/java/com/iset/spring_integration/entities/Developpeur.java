@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -12,27 +13,16 @@ import java.util.List;
 @Entity
 @DiscriminatorValue("DEVELOPPEUR")
 public class Developpeur extends Utilisateur {
-    @Column(nullable = false)
-    @ColumnDefault("false")
-    private Boolean isBanned = false;
 
-    @Column(nullable = false)
-    @ColumnDefault("0")
-    private Integer warnings = 0;
+    @OneToMany(mappedBy = "developer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PendingRecruit> recruitApplications = new ArrayList<>();
 
 
-    public Boolean getIsBanned() {
-        return isBanned;
+    public List<PendingRecruit> getRecruitApplications() {
+        return recruitApplications;
     }
 
-    public void setIsBanned(Boolean banned) {
-        isBanned = banned;
-    }
-
-    public Integer getWarnings() {
-        return warnings;
-    }
-    public void setWarnings(Integer warnings) {
-        this.warnings = warnings;
+    public void setRecruitApplications(List<PendingRecruit> recruitApplications) {
+        this.recruitApplications = recruitApplications;
     }
 }

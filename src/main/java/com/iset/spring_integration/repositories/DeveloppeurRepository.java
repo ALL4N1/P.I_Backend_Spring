@@ -16,10 +16,4 @@ public interface DeveloppeurRepository extends JpaRepository<Developpeur, Long> 
 
     @Query("SELECT count(u) FROM Utilisateur u WHERE TYPE(u) = Enseignant")
     long countAllTeachers();
-
-    @Query("SELECT count(dev) FROM Developpeur dev WHERE dev.isBanned = true")
-    long countBannedDevelopers();
-
-    @Query("SELECT count(ens) FROM Enseignant ens WHERE ens.isBanned = true")
-    long countBannedEnseignants();
 }

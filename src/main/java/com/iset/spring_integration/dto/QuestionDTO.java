@@ -1,41 +1,21 @@
-package com.iset.spring_integration.entities;
+package com.iset.spring_integration.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.iset.spring_integration.util.ResponsesJSON;
-import jakarta.persistence.*;
+import com.iset.spring_integration.entities.QuestionDifficulty;
 import lombok.Data;
-import java.util.Map;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 @Data
-@Entity
-public class Question {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class QuestionDTO {
     private Long id;
-
-    @Column(columnDefinition = "TEXT")
     private String contenu;
-
-    @Enumerated(EnumType.STRING)
     private QuestionDifficulty difficulty;
-
-    private String bonneReponse; // A, B, C ou D
+    private String bonneReponse;
     private String topic;
-
-    @Embedded
-    private QuestionResponses reponses;
-
-    @Column(columnDefinition = "TEXT")
+    private String reponseA;
+    private String reponseB;
+    private String reponseC;
+    private String reponseD;
     private String explanation;
-
-    private Integer timeLimit; // en secondes
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "test_id")
-    @JsonIgnoreProperties({"questions"})
-    private Test test;
+    private Integer timeLimit;
 
     public Long getId() {
         return id;
@@ -77,12 +57,36 @@ public class Question {
         this.topic = topic;
     }
 
-    public QuestionResponses getReponses() {
-        return reponses;
+    public String getReponseA() {
+        return reponseA;
     }
 
-    public void setReponses(QuestionResponses reponses) {
-        this.reponses = reponses;
+    public void setReponseA(String reponseA) {
+        this.reponseA = reponseA;
+    }
+
+    public String getReponseB() {
+        return reponseB;
+    }
+
+    public void setReponseB(String reponseB) {
+        this.reponseB = reponseB;
+    }
+
+    public String getReponseC() {
+        return reponseC;
+    }
+
+    public void setReponseC(String reponseC) {
+        this.reponseC = reponseC;
+    }
+
+    public String getReponseD() {
+        return reponseD;
+    }
+
+    public void setReponseD(String reponseD) {
+        this.reponseD = reponseD;
     }
 
     public String getExplanation() {
@@ -100,13 +104,4 @@ public class Question {
     public void setTimeLimit(Integer timeLimit) {
         this.timeLimit = timeLimit;
     }
-
-    public Test getTest() {
-        return test;
-    }
-
-    public void setTest(Test test) {
-        this.test = test;
-    }
 }
-

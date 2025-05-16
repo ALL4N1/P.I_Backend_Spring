@@ -15,17 +15,14 @@ public class AdminFirstPageService {
     @Autowired
     private RecruitsRepository recruitsRepo;
 
-    @Autowired
-    private ReportRepository reportRepo;
+
 
     public Map<String,Long> AdminStats(){
         Map<String,Long> map = new HashMap<>();
         map.put("Total Developers", devRepository.countAllDevelopersAndTeachers());
         map.put("Approved Teachers", devRepository.countAllTeachers());
         map.put("Pending Teacher Apps", recruitsRepo.count());
-        map.put("Total Pending Reports", reportRepo.countPending());
-        map.put("Suspended Developers", devRepository.countBannedDevelopers());
-        map.put("Suspended Teachers", devRepository.countBannedEnseignants());
+
         return map;
     }
 }
