@@ -1,6 +1,7 @@
 package com.iset.spring_integration.config;
 
 import com.iset.spring_integration.security.JwtFilter;
+import com.iset.spring_integration.services.UtilisateurService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,44 +13,47 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import static org.springframework.security.config.Customizer.withDefaults;
-
-// import static org.springframework.http.HttpMethod.GET;
-// import static org.springframework.http.HttpMethod.POST;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-    @Autowired
-    private JwtFilter jwtFilter;
-    @Autowired
-    private UserDetailsService userDetailsService;
 
-    public SecurityConfig(BCryptPasswordEncoder bCryptPasswordEncoder, JwtFilter jwtFilter, UserDetailsService userDetailsService) {
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final JwtFilter jwtFilter;
+    private final UtilisateurService customUserDetailsService;
+
+    @Autowired
+    public SecurityConfig(BCryptPasswordEncoder bCryptPasswordEncoder,
+                          JwtFilter jwtFilter,
+                          UtilisateurService customUserDetailsService) { // ✅ Modification ici
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.jwtFilter = jwtFilter;
-        this.userDetailsService = userDetailsService;
+        this.customUserDetailsService = customUserDetailsService; // ✅
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
-                .cors(withDefaults()) // ✅ Important line
-                .csrf(AbstractHttpConfigurer::disable)
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .cors(withDefaults())
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/ws/**", "/api/**") // Autoriser WebSocket sans CSRF
+                )
                 .authorizeHttpRequests(authorize ->
                         authorize
-                                .requestMatchers("/api/**", "/uploads/**").permitAll()
+                                .requestMatchers("/api/**", "/uploads/**","/ws/**",
+                                        "/v3/api-docs/**",
+                                        "/swagger-ui/**",
+                                        "/swagger-ui.html").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->
@@ -59,22 +63,23 @@ public class SecurityConfig {
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(eh -> eh
                         .authenticationEntryPoint(authenticationEntryPoint())
-                )
-                .build();
+                );
+
+        return http.build();
     }
 
-
     @Bean
-    public AuthenticationManager authenticationManager (AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider () {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
-        daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
-        return daoAuthenticationProvider;
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(customUserDetailsService); // ✅ Utilisation du service custom
+        provider.setPasswordEncoder(bCryptPasswordEncoder);
+        return provider;
     }
 
     @Bean
@@ -83,6 +88,20 @@ public class SecurityConfig {
             response.setContentType("application/json");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("{\"error\": \"Unauthorized - " + authException.getMessage() + "\"}");
+        };
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:3000")
+                        .allowedMethods("*")
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
+            }
         };
     }
 }

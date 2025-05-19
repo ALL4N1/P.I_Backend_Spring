@@ -24,7 +24,7 @@ public class PendingRecruit {
     private Date submitDate;
 
     private String testLanguage;
-    private Double testScore; // Score sur 20
+    private Double testScore;
 
     private String cvUrl;
 
