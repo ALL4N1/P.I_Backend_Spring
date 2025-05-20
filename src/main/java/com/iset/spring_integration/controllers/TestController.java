@@ -6,6 +6,7 @@ import com.iset.spring_integration.entities.Question;
 import com.iset.spring_integration.entities.Test;
 import com.iset.spring_integration.repositories.TestRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,9 +23,8 @@ public class TestController {
     }
     @GetMapping
     public List<TestDTO> getAllTests() {
-        return testRepository.findAllWithQuestions().stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+        List<Test> tests = testRepository.findAll(Sort.by("id"));
+        return tests.stream().map(this::convertToDTO).toList();
     }
 
     private TestDTO convertToDTO(Test test) {

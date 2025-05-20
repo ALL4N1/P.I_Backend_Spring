@@ -1,6 +1,7 @@
 package com.iset.spring_integration.controllers;
 
 import com.iset.spring_integration.entities.Developpeur;
+import com.iset.spring_integration.entities.Enseignant;
 import com.iset.spring_integration.services.DeveloppeurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,5 +21,9 @@ public class DeveloppeurController {
         return ResponseEntity.ok(devService.findAll());
     }
 
+    @GetMapping("/teachers")
+    public ResponseEntity<List<Enseignant>> getTeachersList(){
+        return ResponseEntity.ok(devService.findAllTeachers());
+    }
 
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DeveloppeurService {
@@ -21,6 +22,13 @@ public class DeveloppeurService {
 
     public List<Developpeur> findAll() {
         return devRepository.findAllDevelopersAndTeachers();
+    }
+
+    public List<Enseignant> findAllTeachers() {
+        return devRepository.findAll().stream()
+                .filter(dev -> dev instanceof Enseignant)
+                .map(dev -> (Enseignant) dev)
+                .collect(Collectors.toList());
     }
 
 
