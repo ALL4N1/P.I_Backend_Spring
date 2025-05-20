@@ -29,14 +29,12 @@ public class RecruitController {
     private final RecruitService recruitService;
     private final PendingRecruitRepository pendingRecruitRepository;
     private final JwtService jwtService;
-    private final EmailService emailService;
 
 
-    public RecruitController(RecruitService recruitService,PendingRecruitRepository pendingRecruitRepository,EmailService emailService) {
+    public RecruitController(RecruitService recruitService,PendingRecruitRepository pendingRecruitRepository) {
         this.recruitService = recruitService;
         this.pendingRecruitRepository = pendingRecruitRepository;
         this.jwtService = new JwtService();
-        this.emailService = emailService;
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

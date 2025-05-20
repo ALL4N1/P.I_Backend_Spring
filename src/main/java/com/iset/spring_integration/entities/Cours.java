@@ -12,20 +12,20 @@ public class Cours {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String titre;
+
+    @Column(nullable = false)
     private String contenu;
 
-    // private String image_url
+    private String image_url;
 
     @ManyToOne
     @JoinColumn(name = "enseignant_id")
-    private Developpeur enseignant;
+    private Enseignant enseignant;
 
     @Column(name = "subject", nullable = false)
     private String subject;
-
-    @OneToMany(mappedBy = "cours", cascade = CascadeType.ALL)
-    private List<Chapitre> chapitres;
 
     public Long getId() {
         return id;
@@ -51,11 +51,11 @@ public class Cours {
         this.contenu = contenu;
     }
 
-    public Developpeur getEnseignant() {
+    public Enseignant getEnseignant() {
         return enseignant;
     }
 
-    public void setEnseignant(Developpeur enseignant) {
+    public void setEnseignant(Enseignant enseignant) {
         this.enseignant = enseignant;
     }
 
@@ -65,13 +65,5 @@ public class Cours {
 
     public void setSubject(String subject) {
         this.subject = subject;
-    }
-
-    public List<Chapitre> getChapitres() {
-        return chapitres;
-    }
-
-    public void setChapitres(List<Chapitre> chapitres) {
-        this.chapitres = chapitres;
     }
 }

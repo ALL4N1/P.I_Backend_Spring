@@ -12,6 +12,7 @@ import java.util.Map;
 
 @Entity
 @Data
+@SequenceGenerator(name = "test_seq", initialValue = 1, allocationSize = 1)
 public class Test {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
