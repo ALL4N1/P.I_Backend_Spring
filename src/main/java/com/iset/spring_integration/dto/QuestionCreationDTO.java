@@ -1,29 +1,28 @@
 package com.iset.spring_integration.dto;
 
 import com.iset.spring_integration.entities.QuestionDifficulty;
-import lombok.Data;
+import org.hibernate.annotations.processing.Pattern;
 
-@Data
-public class QuestionDTO {
-    private Long id;
+public class QuestionCreationDTO {
     private String contenu;
+
     private String difficulty;
+
     private String bonneReponse;
+
     private String topic;
+
     private String reponseA;
+
     private String reponseB;
+
     private String reponseC;
+
     private String reponseD;
+
     private String explanation;
+
     private Integer timeLimit;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getContenu() {
         return contenu;

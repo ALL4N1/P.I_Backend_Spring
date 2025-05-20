@@ -1,36 +1,23 @@
 package com.iset.spring_integration.dto;
 
-import lombok.Data;
+import com.iset.spring_integration.entities.QuestionDifficulty;
 import java.util.List;
 import java.util.Map;
-import com.iset.spring_integration.entities.QuestionDifficulty;
 
-@Data
-public class TestDTO {
-    private Long id;
+public class TestCreationDTO {
     private String title;
+
     private String language;
+
     private String description;
+
     private Integer duration;
+
     private Map<QuestionDifficulty, Integer> difficultyLevels;
-    private List<QuestionDTO> questions;
+
+    private List<QuestionCreationDTO> questions;
+
     private MentorDetailsDTO mentorDetails;
-
-    public MentorDetailsDTO getMentorDetails() {
-        return mentorDetails;
-    }
-
-    public void setMentorDetails(MentorDetailsDTO mentorDetails) {
-        this.mentorDetails = mentorDetails;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -72,11 +59,19 @@ public class TestDTO {
         this.difficultyLevels = difficultyLevels;
     }
 
-    public List<QuestionDTO> getQuestions() {
+    public List<QuestionCreationDTO> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(List<QuestionDTO> questions) {
+    public void setQuestions(List<QuestionCreationDTO> questions) {
         this.questions = questions;
+    }
+
+    public MentorDetailsDTO getMentorDetails() {
+        return mentorDetails;
+    }
+
+    public void setMentorDetails(MentorDetailsDTO mentorDetails) {
+        this.mentorDetails = mentorDetails;
     }
 }
