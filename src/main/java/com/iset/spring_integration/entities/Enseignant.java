@@ -15,22 +15,9 @@ import java.util.Set;
 @Entity
 @DiscriminatorValue("ENSEIGNANT")
 public class Enseignant extends Developpeur {
-    @OneToMany(mappedBy = "enseignant", cascade = CascadeType.ALL)
-    private List<Cours> coursList;
-
     @Column(name = "badges", columnDefinition = "TEXT")
     @Convert(converter = StringSetConverter.class)
     private Set<String> badges = new HashSet<>();
-
-
-
-    public List<Cours> getCoursList() {
-        return coursList;
-    }
-
-    public void setCoursList(List<Cours> coursCrees) {
-        this.coursList = coursCrees;
-    }
 
     public Set<String> getBadges() {
         return badges;
