@@ -1,11 +1,15 @@
 package com.iset.spring_integration.services;
 
 import com.iset.spring_integration.dto.RecruitRequestDTO;
+import com.iset.spring_integration.dto.StatusUpdateRequest;
 import com.iset.spring_integration.entities.*;
 import com.iset.spring_integration.repositories.DeveloppeurRepository;
 import com.iset.spring_integration.repositories.PendingRecruitRepository;
 import com.iset.spring_integration.repositories.TestRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -17,7 +21,8 @@ public class RecruitService {
     private final DeveloppeurRepository developpeurRepository;
     private final FileStorageService fileStorageService;
 
-    public RecruitService(PendingRecruitRepository pendingRecruitRepository, TestRepository testRepository, DeveloppeurRepository developpeurRepository, FileStorageService fileStorageService) {
+
+    public RecruitService(PendingRecruitRepository pendingRecruitRepository, TestRepository testRepository, DeveloppeurRepository developpeurRepository, FileStorageService fileStorageService ) {
         this.pendingRecruitRepository = pendingRecruitRepository;
         this.testRepository = testRepository;
         this.developpeurRepository = developpeurRepository;
@@ -46,4 +51,23 @@ public class RecruitService {
                 )
         );
     }
+
+    @Transactional
+    public void updateStatus(Long id, StatusUpdateRequest request) {
+        PendingRecruit recruit = pendingRecruitRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Candidature non trouvée"));
+
+        // Mise à jour du statut
+        recruit.setStatus(request.getStatus());
+        pendingRecruitRepository.save(recruit);
+
+
+
+    }
+    @Transactional
+    public void deleteRecruitment(Long id) {
+        pendingRecruitRepository.deleteById(id);
+    }
+
+
 }
