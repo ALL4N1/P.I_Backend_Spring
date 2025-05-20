@@ -19,6 +19,8 @@ public class CorsConfig {
         configuration.setAllowedOrigins(List.of("http://localhost:3000")); // frontend
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        ;
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

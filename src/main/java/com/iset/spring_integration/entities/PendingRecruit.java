@@ -1,13 +1,18 @@
 package com.iset.spring_integration.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class PendingRecruit {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,78 +26,33 @@ public class PendingRecruit {
     private Developpeur developer;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
     private Date submitDate;
 
+    @Column(name = "test_language", nullable = false) // Nom de colonne explicite
     private String testLanguage;
+
+    @Column(nullable = false)
     private Double testScore;
 
+    @Column(name = "cv_url", nullable = false)
     private String cvUrl;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private RecruitStatus status;
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Test getTest() {
-        return test;
-    }
-
-    public void setTest(Test test) {
+    // Constructeur personnalisé si nécessaire
+    public PendingRecruit(Test test, Developpeur developer, Date submitDate,
+                          String testLanguage, Double testScore, String cvUrl,
+                          RecruitStatus status) {
         this.test = test;
-    }
-
-    public Developpeur getDeveloper() {
-        return developer;
-    }
-
-    public void setDeveloper(Developpeur developer) {
         this.developer = developer;
-    }
-
-    public Date getSubmitDate() {
-        return submitDate;
-    }
-
-    public void setSubmitDate(Date submitDate) {
         this.submitDate = submitDate;
-    }
-
-    public String getTestLanguage() {
-        return testLanguage;
-    }
-
-    public void setTestLanguage(String testLanguage) {
         this.testLanguage = testLanguage;
-    }
-
-    public Double getTestScore() {
-        return testScore;
-    }
-
-    public void setTestScore(Double testScore) {
         this.testScore = testScore;
-    }
-
-    public String getCvUrl() {
-        return cvUrl;
-    }
-
-    public void setCvUrl(String cvUrl) {
         this.cvUrl = cvUrl;
-    }
-
-    public RecruitStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(RecruitStatus status) {
         this.status = status;
     }
 }
-

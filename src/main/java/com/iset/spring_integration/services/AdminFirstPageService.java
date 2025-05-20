@@ -13,7 +13,7 @@ public class AdminFirstPageService {
     private DeveloppeurRepository devRepository;
 
     @Autowired
-    private RecruitsRepository recruitsRepo;
+    private PendingRecruitRepository recruitsRepo;
 
 
 
