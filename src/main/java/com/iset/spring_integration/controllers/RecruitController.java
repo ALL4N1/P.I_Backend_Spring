@@ -1,4 +1,4 @@
-//package com.iset.spring_integration.controllers;
+package com.iset.spring_integration.controllers;
 
 import com.iset.spring_integration.dto.AdminPendingRecruitDTO;
 import com.iset.spring_integration.dto.StatusUpdateRequest;

@@ -15,7 +15,7 @@ import java.util.Set;
 @Entity
 @DiscriminatorValue("ENSEIGNANT")
 public class Enseignant extends Developpeur {
-<<<<<<< HEAD
+
     @Column(columnDefinition = "TEXT")
     private String bio;
 
@@ -24,21 +24,17 @@ public class Enseignant extends Developpeur {
     private String university;
 
     @OneToMany(mappedBy = "enseignant", cascade = CascadeType.ALL)
-    private List<Cours> coursList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "enseignant", cascade = CascadeType.ALL)
     private List<Projet> projets = new ArrayList<>();
 
     @OneToMany(mappedBy = "enseignant", cascade = CascadeType.ALL)
     private List<Certification> certifications = new ArrayList<>();
 
-=======
->>>>>>> d3e42cd97f077134d488c0b5c2d582102ccb9941
+
     @Column(name = "badges", columnDefinition = "TEXT")
     @Convert(converter = StringSetConverter.class)
     private Set<String> badges = new HashSet<>();
 
-<<<<<<< HEAD
+
     // Getters and Setters
     public String getBio() {
         return bio;
@@ -64,14 +60,6 @@ public class Enseignant extends Developpeur {
         this.university = university;
     }
 
-    public List<Cours> getCoursList() {
-        return coursList;
-    }
-
-    public void setCoursList(List<Cours> coursList) {
-        this.coursList = coursList;
-    }
-
     public List<Projet> getProjets() {
         return projets;
     }
@@ -88,8 +76,6 @@ public class Enseignant extends Developpeur {
         this.certifications = certifications;
     }
 
-=======
->>>>>>> d3e42cd97f077134d488c0b5c2d582102ccb9941
     public Set<String> getBadges() {
         return badges;
     }

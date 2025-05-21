@@ -69,7 +69,6 @@ public class EnseignantController {
         response.put("position", enseignant.getPosition());
         response.put("university", enseignant.getUniversity());
         response.put("badges", enseignant.getBadges());
-        response.put("courses", enseignant.getCoursList());
         response.put("projets", enseignant.getProjets());
         response.put("certifications", enseignant.getCertifications());
 
