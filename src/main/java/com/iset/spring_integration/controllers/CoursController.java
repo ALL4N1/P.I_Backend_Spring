@@ -49,4 +49,9 @@ public class CoursController {
     public ResponseEntity<?> findChapitreByCours(@PathVariable Long id) {
         return ResponseEntity.ok(coursService.findChapitreByCours(id));
     }
+
+    @GetMapping("/subjects")
+    public ResponseEntity<?> findAllSubjects() {
+        return ResponseEntity.ok(coursService.getAllSubjects());
+    }
 }

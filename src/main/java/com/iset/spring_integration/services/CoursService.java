@@ -62,4 +62,9 @@ public class CoursService {
                 () -> new EntityNotFoundException("Cours not found"));
         return chapitreRepository.findChapitreByCours(cours);
     }
+
+    public List<String> getAllSubjects() {
+        List<String> subjects = new ArrayList<>(coursRepository.getSubjects());
+        return subjects;
+    }
 }
