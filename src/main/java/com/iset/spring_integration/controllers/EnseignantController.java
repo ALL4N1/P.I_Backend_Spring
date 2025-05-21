@@ -7,6 +7,7 @@ import com.iset.spring_integration.entities.Certification;
 import com.iset.spring_integration.repositories.EnseignantRepository;
 import com.iset.spring_integration.repositories.ProjetRepository;
 import com.iset.spring_integration.repositories.CertificationRepository;
+import com.iset.spring_integration.services.CoursService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.persistence.EntityNotFoundException;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "*")
 public class EnseignantController {
 
+    private final CoursService coursService;
     private final EnseignantRepository enseignantRepository;
     private final ProjetRepository projetRepository;
     private final CertificationRepository certificationRepository;
@@ -32,10 +34,12 @@ public class EnseignantController {
     public EnseignantController(
             EnseignantRepository enseignantRepository,
             ProjetRepository projetRepository,
-            CertificationRepository certificationRepository) {
+            CertificationRepository certificationRepository,
+            CoursService coursService) {
         this.enseignantRepository = enseignantRepository;
         this.projetRepository = projetRepository;
         this.certificationRepository = certificationRepository;
+        this.coursService = coursService;
     }
 
     @GetMapping("/list")
@@ -66,6 +70,7 @@ public class EnseignantController {
         response.put("pfp_url", enseignant.getPfp_url());
         response.put("tel", enseignant.getTel());
         response.put("bio", enseignant.getBio());
+        response.put("courses", coursService.findAllCoursByEnseignant(enseignant));
         response.put("position", enseignant.getPosition());
         response.put("university", enseignant.getUniversity());
         response.put("badges", enseignant.getBadges());

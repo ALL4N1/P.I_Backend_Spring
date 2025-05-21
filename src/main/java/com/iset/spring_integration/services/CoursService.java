@@ -67,4 +67,8 @@ public class CoursService {
         List<String> subjects = new ArrayList<>(coursRepository.getSubjects());
         return subjects;
     }
+
+    public List<Cours> findAllCoursByEnseignant(Enseignant enseignant) {
+        return coursRepository.findCoursByEnseignant(enseignant);
+    }
 }
