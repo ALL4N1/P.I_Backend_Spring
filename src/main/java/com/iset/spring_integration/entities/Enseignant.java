@@ -19,10 +19,6 @@ public class Enseignant extends Developpeur {
     @Column(columnDefinition = "TEXT")
     private String bio;
 
-    private String position;
-
-    private String university;
-
     @OneToMany(mappedBy = "enseignant", cascade = CascadeType.ALL)
     private List<Projet> projets = new ArrayList<>();
 
@@ -36,28 +32,14 @@ public class Enseignant extends Developpeur {
 
 
     // Getters and Setters
+
+
     public String getBio() {
         return bio;
     }
 
     public void setBio(String bio) {
         this.bio = bio;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
-
-    public String getUniversity() {
-        return university;
-    }
-
-    public void setUniversity(String university) {
-        this.university = university;
     }
 
     public List<Projet> getProjets() {
