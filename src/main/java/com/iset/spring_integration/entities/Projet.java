@@ -1,13 +1,9 @@
 package com.iset.spring_integration.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
 
-import java.util.List;
-
-@Data
 @Entity
-public class Cours {
+public class Projet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,17 +11,15 @@ public class Cours {
     @Column(nullable = false)
     private String titre;
 
-    @Column(nullable = false)
-    private String contenu;
+    @Column(columnDefinition = "TEXT")
+    private String description;
 
-    private String image_url;
+    @Column(name = "github_link")
+    private String githubLink;
 
     @ManyToOne
     @JoinColumn(name = "enseignant_id")
     private Enseignant enseignant;
-
-    @Column(name = "subject", nullable = false)
-    private String subject;
 
     public Long getId() {
         return id;
@@ -43,12 +37,20 @@ public class Cours {
         this.titre = titre;
     }
 
-    public String getContenu() {
-        return contenu;
+    public String getDescription() {
+        return description;
     }
 
-    public void setContenu(String contenu) {
-        this.contenu = contenu;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getGithubLink() {
+        return githubLink;
+    }
+
+    public void setGithubLink(String githubLink) {
+        this.githubLink = githubLink;
     }
 
     public Enseignant getEnseignant() {
@@ -58,20 +60,7 @@ public class Cours {
     public void setEnseignant(Enseignant enseignant) {
         this.enseignant = enseignant;
     }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-    public String getImage_url() {
-        return image_url;
-    }
-
-    public void setImage_url(String image_url) {
-        this.image_url = image_url;
-    }
 }
+
+
+

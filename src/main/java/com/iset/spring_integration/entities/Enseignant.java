@@ -15,6 +15,11 @@ import java.util.Set;
 @Entity
 @DiscriminatorValue("ENSEIGNANT")
 public class Enseignant extends Developpeur {
+
+    @Column(columnDefinition = "TEXT")
+    private String bio;
+
+
     @Column(name = "badges", columnDefinition = "TEXT")
     @Convert(converter = StringSetConverter.class)
     private Set<String> badges = new HashSet<>();
@@ -26,4 +31,17 @@ public class Enseignant extends Developpeur {
     public void setBadges(Set<String> badges) {
         this.badges = badges;
     }
+
+// Getters and Setters
+
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+
 }
