@@ -50,7 +50,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(authorize ->
                         authorize
-                                .requestMatchers("/api/**", "/uploads/**","/ws/**",
+                                .requestMatchers("/api/**", "/uploads/**", "/pdf/**", "/ws/**",
                                         "/v3/api-docs/**",
                                         "/swagger-ui/**",
                                         "/swagger-ui.html").permitAll()
