@@ -14,15 +14,4 @@ import java.util.List;
 @DiscriminatorValue("DEVELOPPEUR")
 public class Developpeur extends Utilisateur {
 
-    @OneToMany(mappedBy = "developer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PendingRecruit> recruitApplications = new ArrayList<>();
-
-
-    public List<PendingRecruit> getRecruitApplications() {
-        return recruitApplications;
-    }
-
-    public void setRecruitApplications(List<PendingRecruit> recruitApplications) {
-        this.recruitApplications = recruitApplications;
-    }
 }
