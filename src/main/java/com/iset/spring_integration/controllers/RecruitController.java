@@ -2,11 +2,16 @@ package com.iset.spring_integration.controllers;
 
 import com.iset.spring_integration.dto.AdminPendingRecruitDTO;
 import com.iset.spring_integration.dto.StatusUpdateRequest;
+import com.iset.spring_integration.entities.Developpeur;
+import com.iset.spring_integration.entities.Enseignant;
 import com.iset.spring_integration.entities.PendingRecruit;
 import com.iset.spring_integration.dto.RecruitRequestDTO;
+import com.iset.spring_integration.repositories.DeveloppeurRepository;
+import com.iset.spring_integration.repositories.EnseignantRepository;
 import com.iset.spring_integration.repositories.PendingRecruitRepository;
 import com.iset.spring_integration.security.JwtService;
 import com.iset.spring_integration.services.RecruitService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -29,12 +34,16 @@ public class RecruitController {
     private final RecruitService recruitService;
     private final PendingRecruitRepository pendingRecruitRepository;
     private final JwtService jwtService;
+    private final DeveloppeurRepository developpeurRepository;
+    private final EnseignantRepository enseignantRepository;
 
 
-    public RecruitController(RecruitService recruitService,PendingRecruitRepository pendingRecruitRepository) {
+    public RecruitController(RecruitService recruitService, PendingRecruitRepository pendingRecruitRepository, DeveloppeurRepository developpeurRepository, EnseignantRepository enseignantRepository) {
         this.recruitService = recruitService;
         this.pendingRecruitRepository = pendingRecruitRepository;
         this.jwtService = new JwtService();
+        this.developpeurRepository = developpeurRepository;
+        this.enseignantRepository = enseignantRepository;
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -84,10 +93,34 @@ public class RecruitController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('DEVELOPPEUR')")
+    @PreAuthorize("hasRole('ROLE_DEVELOPPEUR')")
     public ResponseEntity<Void> deleteRecruitment(@PathVariable Long id) {
         recruitService.deleteRecruitment(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/promote")
+    public ResponseEntity<Enseignant> promote(@RequestBody Long id){
+        Developpeur dev = developpeurRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Dev not found")
+        );
+
+        Enseignant ens = new Enseignant();
+        ens.setTel(dev.getTel()); ens.setEmail(dev.getEmail());
+        ens.setNom(dev.getNom()); ens.setPfp_url(dev.getPfp_url());
+        ens.setMdp(dev.getMdp());
+
+        ens = enseignantRepository.save(ens);
+
+        List<PendingRecruit> recruits = pendingRecruitRepository.findAllByDeveloper(dev);
+        for(PendingRecruit recruit: recruits){
+            recruit.setDeveloper(ens);
+        }
+        pendingRecruitRepository.saveAll(recruits);
+
+        developpeurRepository.delete(dev);
+
+        return ResponseEntity.ok(ens);
     }
 
 
