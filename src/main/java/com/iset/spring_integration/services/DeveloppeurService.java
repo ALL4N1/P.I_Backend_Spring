@@ -21,7 +21,7 @@ public class DeveloppeurService {
     private CoursRepository coursRepository;
 
     public List<Developpeur> findAll() {
-        return devRepository.findAllDevelopersAndTeachers();
+        return devRepository.findAll();
     }
 
     public List<Enseignant> findAllTeachers() {

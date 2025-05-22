@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface PendingRecruitRepository extends JpaRepository<PendingRecruit, Long> {
-    @Query("SELECT pr FROM PendingRecruit pr JOIN FETCH pr.developer d JOIN FETCH d.recruitApplications WHERE pr.status = 'PENDING'")
+    @Query("SELECT pr FROM PendingRecruit pr JOIN FETCH pr.developer d JOIN FETCH d.recruitApplications ")
     List<PendingRecruit> findAllWithDeveloperAndTest();
 }

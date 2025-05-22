@@ -21,9 +21,6 @@ public class DeveloppeurController {
         return ResponseEntity.ok(devService.findAll());
     }
 
-    @GetMapping("/teachers")
-    public ResponseEntity<List<Enseignant>> getTeachersList(){
-        return ResponseEntity.ok(devService.findAllTeachers());
-    }
+
 
 }

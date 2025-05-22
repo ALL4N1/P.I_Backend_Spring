@@ -6,6 +6,7 @@ import com.iset.spring_integration.entities.PendingRecruit;
 import com.iset.spring_integration.dto.RecruitRequestDTO;
 import com.iset.spring_integration.repositories.PendingRecruitRepository;
 import com.iset.spring_integration.security.JwtService;
+import com.iset.spring_integration.services.AcceptDevelopperService;
 import com.iset.spring_integration.services.RecruitService;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -29,12 +30,15 @@ public class RecruitController {
     private final RecruitService recruitService;
     private final PendingRecruitRepository pendingRecruitRepository;
     private final JwtService jwtService;
+    private final AcceptDevelopperService acceptDevelopperService;
 
 
-    public RecruitController(RecruitService recruitService,PendingRecruitRepository pendingRecruitRepository) {
+
+    public RecruitController(RecruitService recruitService,PendingRecruitRepository pendingRecruitRepository,AcceptDevelopperService acceptDevelopperService) {
         this.recruitService = recruitService;
         this.pendingRecruitRepository = pendingRecruitRepository;
         this.jwtService = new JwtService();
+        this.acceptDevelopperService = acceptDevelopperService;
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -89,6 +93,17 @@ public class RecruitController {
         recruitService.deleteRecruitment(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}/accept")
+    public ResponseEntity<Void> acceptRecruitment(
+            @PathVariable Long id,
+            @RequestParam String language
+    ) {
+        acceptDevelopperService.promouvoirEtSupprimer(id, language);
+        return ResponseEntity.ok().build();
+    }
+
+
 
 
 

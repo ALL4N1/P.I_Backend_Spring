@@ -20,4 +20,6 @@ public interface DeveloppeurRepository extends JpaRepository<Developpeur, Long> 
 
     Optional<Developpeur> findByEmail(String email);
 
+    List<Developpeur> findAll();
+
 }

@@ -35,6 +35,13 @@ public class TestController {
         Test savedTest = testRepository.save(newTest);
         return ResponseEntity.status(HttpStatus.CREATED).body(convertToDTO(savedTest));
     }
+    // TestController.java
+    @GetMapping("/{id}")
+    public ResponseEntity<TestDTO> getTestById(@PathVariable Long id) {
+        return testRepository.findById(id)
+                .map(test -> ResponseEntity.ok(convertToDTO(test)))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Test non trouvé"));
+    }
 
     // Endpoint PUT modifié
     @PutMapping("/{id}")

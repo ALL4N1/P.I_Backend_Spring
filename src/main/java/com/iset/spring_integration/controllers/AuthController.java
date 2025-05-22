@@ -82,5 +82,19 @@ public class AuthController {
                                         @RequestParam("pfp") MultipartFile image) throws IOException {
         return new ResponseEntity<>(this.utilisateurService.uploadImage(id,image),HttpStatus.OK);
     }
+
+    @PostMapping("/{id}/update_pass")
+    public void updatePass(@PathVariable Long id, @RequestBody String pass) {
+        Optional<Utilisateur> ut = this.utilisateurRepository.findById(id.toString());
+        if(ut.isPresent()) {
+            Utilisateur u = ut.get();
+            u.setMdp(passwordEncoder.encode(pass));
+            this.utilisateurRepository.save(u);
+            ResponseEntity.status(HttpStatus.ACCEPTED).body("Password updated");
+        }
+        else{
+            ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        }
+    }
 }
 
