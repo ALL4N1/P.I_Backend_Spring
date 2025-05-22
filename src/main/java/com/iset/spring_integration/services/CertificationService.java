@@ -1,46 +1,46 @@
 package com.iset.spring_integration.services;
 
+import com.iset.spring_integration.dto.CertificationDTO;
 import com.iset.spring_integration.entities.Certification;
+import com.iset.spring_integration.entities.Enseignant;
 import com.iset.spring_integration.repositories.CertificationRepository;
+import com.iset.spring_integration.repositories.EnseignantRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 @Service
 public class CertificationService {
-
     @Autowired
     private CertificationRepository certificationRepository;
 
-    public List<Certification> findByEnseignantId(Long enseignantId) {
-        return certificationRepository.findByEnseignantId(enseignantId);
+    @Autowired
+    private EnseignantRepository enseignantRepository;
+
+    public List<Certification> findAllCertifications() {
+        return certificationRepository.findAll();
     }
 
-    public Certification save(Certification certification) {
-        return certificationRepository.save(certification);
-    }
-
-    public void deleteById(Long id) {
+    public void deleteCertification(Long id) {
         certificationRepository.deleteById(id);
     }
 
-    public Certification findById(Long id) {
-        return certificationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Certification not found with id: " + id));
+    public Certification addCertification(CertificationDTO request) {
+        Enseignant enseignant = enseignantRepository.findById(request.getEnseignant_id())
+                .orElseThrow(() -> new EntityNotFoundException("Enseignant not found"));
+
+        Certification certification = new Certification();
+        certification.setEnseignant(enseignant);
+        certification.setTitre(request.getTitre());
+        certification.setFileUrl(request.getFileUrl());
+
+        return certificationRepository.save(certification);
     }
 
-    public boolean deleteFile(String fileUrl) {
-        try {
-            Path filePath = Paths.get(fileUrl);
-            return Files.deleteIfExists(filePath);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
+    public List<Certification> findCertificationsByEnseignant(Enseignant enseignant) {
+        return certificationRepository.findByEnseignant(enseignant);
     }
 }
+

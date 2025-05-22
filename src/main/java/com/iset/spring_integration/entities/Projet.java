@@ -8,11 +8,17 @@ public class Projet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String titre;
+
+    @Column(columnDefinition = "TEXT")
     private String description;
+
+    @Column(name = "github_link")
     private String githubLink;
 
     @ManyToOne
+    @JoinColumn(name = "enseignant_id")
     private Enseignant enseignant;
 
     public Long getId() {
@@ -55,3 +61,6 @@ public class Projet {
         this.enseignant = enseignant;
     }
 }
+
+
+

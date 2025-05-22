@@ -8,10 +8,14 @@ public class Certification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String titre;
+
+    @Column(name = "file_url")
     private String fileUrl;
 
     @ManyToOne
+    @JoinColumn(name = "enseignant_id")
     private Enseignant enseignant;
 
     public Long getId() {

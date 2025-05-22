@@ -7,6 +7,8 @@ public class ProjetDTO {
     private String titre;
     private String description;
     private String githubLink;
+    private Long enseignant_id;
+
 
     public ProjetDTO() {
     }
@@ -16,6 +18,7 @@ public class ProjetDTO {
         this.titre = projet.getTitre();
         this.description = projet.getDescription();
         this.githubLink = projet.getGithubLink();
+        this.enseignant_id = projet.getEnseignant().getId();
     }
 
     public Long getId() {
@@ -48,5 +51,13 @@ public class ProjetDTO {
 
     public void setGithubLink(String githubLink) {
         this.githubLink = githubLink;
+    }
+
+    public Long getEnseignant_id() {
+        return enseignant_id;
+    }
+
+    public void setEnseignant_id(Long enseignant_id) {
+        this.enseignant_id = enseignant_id;
     }
 }

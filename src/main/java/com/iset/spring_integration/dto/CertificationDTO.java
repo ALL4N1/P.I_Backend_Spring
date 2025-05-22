@@ -6,6 +6,8 @@ public class CertificationDTO {
     private Long id;
     private String titre;
     private String fileUrl;
+    private Long enseignant_id;
+
 
     public CertificationDTO() {
     }
@@ -14,6 +16,7 @@ public class CertificationDTO {
         this.id = certification.getId();
         this.titre = certification.getTitre();
         this.fileUrl = certification.getFileUrl();
+        this.enseignant_id = certification.getEnseignant().getId();
     }
 
     public Long getId() {
@@ -38,5 +41,11 @@ public class CertificationDTO {
 
     public void setFileUrl(String fileUrl) {
         this.fileUrl = fileUrl;
+    }
+    public Long getEnseignant_id() {
+        return enseignant_id;
+    }
+    public void setEnseignant_id(Long enseignant_id) {
+        this.enseignant_id = enseignant_id;
     }
 }
