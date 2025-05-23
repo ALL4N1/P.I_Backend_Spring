@@ -33,7 +33,6 @@ public class WebConfig implements WebMvcConfigurer {
                                 : new ClassPathResource("/static/not-found.png");
                     }
                 });
-        ;
     }
 }
 

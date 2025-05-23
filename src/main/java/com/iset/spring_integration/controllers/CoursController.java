@@ -1,19 +1,25 @@
 package com.iset.spring_integration.controllers;
 
-import com.iset.spring_integration.dto.CahpitreDTO;
+import com.iset.spring_integration.dto.ChapitreDTO;
 import com.iset.spring_integration.dto.CoursDTO;
 import com.iset.spring_integration.entities.Chapitre;
 import com.iset.spring_integration.entities.Cours;
-import com.iset.spring_integration.entities.Developpeur;
 import com.iset.spring_integration.entities.Enseignant;
-import com.iset.spring_integration.repositories.DeveloppeurRepository;
+import com.iset.spring_integration.entities.TypeChapitre;
+import com.iset.spring_integration.repositories.ChapitreRepository;
+import com.iset.spring_integration.repositories.CoursRepository;
 import com.iset.spring_integration.repositories.EnseignantRepository;
+import com.iset.spring_integration.services.ChapitreService;
 import com.iset.spring_integration.services.CoursService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -26,7 +32,15 @@ public class CoursController {
     private CoursService coursService;
 
     @Autowired
+    private ChapitreRepository chapitreRepository;
+
+    @Autowired
+    private ChapitreService chapitreService;
+
+    @Autowired
     private EnseignantRepository enseignantRepository;
+    @Autowired
+    private CoursRepository coursRepository;
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCours(@PathVariable Long id) {
@@ -61,29 +75,30 @@ public class CoursController {
         return ResponseEntity.ok(simplifiedCourses);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<Map<String, Object>> addCours(@RequestBody CoursDTO request) {
-        Cours savedCours = coursService.addCours(request);
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("id", savedCours.getId());
-        response.put("titre", savedCours.getTitre());
-        response.put("contenu", savedCours.getContenu());
-        response.put("subject", savedCours.getSubject());
+    @PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Cours> addCours(
+            @RequestParam("titre") String titre,
+            @RequestParam("contenu") String contenu,
+            @RequestParam("subject") String subject,
+            @RequestParam("enseignant_id") String enseignantId,
+            @RequestParam(value = "image", required = false) MultipartFile image
+    )  {
+        CoursDTO coursDTO = new CoursDTO();
+        coursDTO.setTitre(titre);
+        coursDTO.setContenu(contenu);
+        coursDTO.setSubject(subject);
+        coursDTO.setEnseignant_id(Long.parseLong(enseignantId));
+        coursDTO.setImage(image);
 
-        if (savedCours.getEnseignant() != null) {
-            Map<String, Object> teacherMap = new HashMap<>();
-            teacherMap.put("id", savedCours.getEnseignant().getId());
-            teacherMap.put("nom", savedCours.getEnseignant().getNom());
-            response.put("enseignant", teacherMap);
-        }
+        Cours savedCours = coursService.addCours(coursDTO);
 
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(savedCours, HttpStatus.CREATED);
     }
 
     @PostMapping("/add/chapitre")
-    public ResponseEntity<Map<String, Object>> addChapitre(@RequestBody CahpitreDTO request) {
-        Chapitre savedChapitre = coursService.addChapitre(request);
+    public ResponseEntity<Map<String, Object>> addChapitre(@RequestBody ChapitreDTO request) {
+        Chapitre savedChapitre = chapitreService.addChapitre(request);
 
         Map<String, Object> response = new HashMap<>();
         response.put("id", savedChapitre.getId());
@@ -110,7 +125,7 @@ public class CoursController {
                     .findFirst()
                     .orElseThrow(() -> new EntityNotFoundException("Course not found with id: " + id));
 
-            List<Chapitre> chapitres = coursService.findChapitreByCours(id);
+            List<Chapitre> chapitres = chapitreService.findChapitreByCours(id);
 
             Map<String, Object> response = new HashMap<>();
             response.put("course", cours);
@@ -127,7 +142,7 @@ public class CoursController {
 
     @GetMapping("/{id}/chapitres")
     public ResponseEntity<List<Map<String, Object>>> findChapitreByCours(@PathVariable Long id) {
-        List<Chapitre> chapitres = coursService.findChapitreByCours(id);
+        List<Chapitre> chapitres = chapitreService.findChapitreByCours(id);
 
         List<Map<String, Object>> simplifiedChapitres = chapitres.stream()
                 .map(chapitre -> {
@@ -178,4 +193,31 @@ public class CoursController {
                     .body("Error retrieving courses: " + e.getMessage());
         }
     }
+
+    @GetMapping("/{id}/details")
+    public ResponseEntity<?> findCoursByDetails(@PathVariable Long id) {
+        return ResponseEntity.ok(coursRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Course not found with id: " + id)));
+    }
+
+    @PostMapping(value = "/chapitre/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Chapitre> addChapitre(
+            @RequestParam("titre") String titre,
+            @RequestParam("placement") String placement,
+            @RequestParam("type_chapter") String type_chapter,
+            @RequestParam("cours_id") String cours_id,
+            @RequestParam(value = "chapter_file", required = false) MultipartFile file
+    )  {
+        ChapitreDTO chapitreDTO = new ChapitreDTO();
+        chapitreDTO.setTitre(titre);
+        chapitreDTO.setPlacement(Integer.parseInt(placement));
+        chapitreDTO.setId_cours(Long.parseLong(cours_id));
+        chapitreDTO.setChapitre_file(file);
+        chapitreDTO.setType_chapitre(TypeChapitre.valueOf(type_chapter));
+
+        Chapitre savedChapitre = chapitreService.addChapitre(chapitreDTO);
+
+        return new ResponseEntity<>(savedChapitre, HttpStatus.CREATED);
+    }
+
 }
