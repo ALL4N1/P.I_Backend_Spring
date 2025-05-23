@@ -23,8 +23,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/recruitments")/// /
@@ -36,6 +38,7 @@ public class RecruitController {
     private final JwtService jwtService;
     private final DeveloppeurRepository developpeurRepository;
     private final EnseignantRepository enseignantRepository;
+
 
 
     public RecruitController(RecruitService recruitService, PendingRecruitRepository pendingRecruitRepository, DeveloppeurRepository developpeurRepository, EnseignantRepository enseignantRepository) {
@@ -61,9 +64,7 @@ public class RecruitController {
 
     @GetMapping("/pending")
     public List<AdminPendingRecruitDTO> getPendingRecruitments() {
-        return pendingRecruitRepository.findAllWithDeveloperAndTest().stream()
-                .map(AdminPendingRecruitDTO::new)
-                .collect(Collectors.toList());
+        return pendingRecruitRepository.findAllWithDeveloperAndTest();
     }
 
     @GetMapping("/uploads/cvs/{filename:.+}")
@@ -100,29 +101,46 @@ public class RecruitController {
     }
 
     @PostMapping("/promote")
-    public ResponseEntity<Enseignant> promote(@RequestBody Long id){
-        Developpeur dev = developpeurRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Dev not found")
-        );
+    public ResponseEntity<Enseignant> promote(@RequestBody Long id) {
+        Developpeur dev = developpeurRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Dev not found"));
 
         Enseignant ens = new Enseignant();
-        ens.setTel(dev.getTel()); ens.setEmail(dev.getEmail());
-        ens.setNom(dev.getNom()); ens.setPfp_url(dev.getPfp_url());
+        ens.setTel(dev.getTel());
+        ens.setEmail(dev.getEmail());
+        ens.setNom(dev.getNom());
+        ens.setPfp_url(dev.getPfp_url());
         ens.setMdp(dev.getMdp());
 
-        ens = enseignantRepository.save(ens);
-
+        Set<String> badges = new HashSet<>();
         List<PendingRecruit> recruits = pendingRecruitRepository.findAllByDeveloper(dev);
-        for(PendingRecruit recruit: recruits){
-            recruit.setDeveloper(ens);
+        for(PendingRecruit recruit : recruits) {
+            if(recruit.getTestLanguage() != null) {
+                badges.add(recruit.getTestLanguage().toLowerCase());
+            }
         }
+        ens.setBadges(badges);
+
+        // Modification clé ici
+        final Enseignant savedEns = enseignantRepository.save(ens);
+
+
+
+        recruits.forEach(recruit -> recruit.setDeveloper(savedEns));
         pendingRecruitRepository.saveAll(recruits);
 
         developpeurRepository.delete(dev);
 
-        return ResponseEntity.ok(ens);
+        return ResponseEntity.ok(savedEns);
     }
 
+    @PatchMapping("/enseignants/{id}/badges")
+    public ResponseEntity<Void> updateBadges(
+            @PathVariable Long id,
+            @RequestBody Set<String> newBadges) {
 
+        recruitService.updateBadges(id, newBadges);
+        return ResponseEntity.ok().build();
+    }
 
 }

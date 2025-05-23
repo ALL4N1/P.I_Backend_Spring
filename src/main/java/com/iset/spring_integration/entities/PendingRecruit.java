@@ -1,5 +1,6 @@
 package com.iset.spring_integration.entities;
 
+import com.iset.spring_integration.dto.AdminPendingRecruitDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,6 +10,48 @@ import java.util.Date;
 
 @Data
 @Entity
+@SqlResultSetMappings({
+        @SqlResultSetMapping(
+                name = "AdminPendingRecruitMapping",
+                classes = @ConstructorResult(
+                        targetClass = AdminPendingRecruitDTO.class,
+                        columns = {
+                                @ColumnResult(name = "id", type = Long.class),
+                                @ColumnResult(name = "developerName", type = String.class),
+                                @ColumnResult(name = "developerImage", type = String.class),
+                                @ColumnResult(name = "developerEmail", type = String.class),
+                                @ColumnResult(name = "testTitle", type = String.class),
+                                @ColumnResult(name = "testLanguage", type = String.class),
+                                @ColumnResult(name = "testScore", type = Double.class),
+                                @ColumnResult(name = "status", type = String.class),
+                                @ColumnResult(name = "formattedSubmitDate", type = String.class),
+                                @ColumnResult(name = "cvUrl", type = String.class),
+                                @ColumnResult(name = "developerId", type = Long.class)
+                        }
+                )
+        )
+})
+@NamedNativeQuery(
+        name = "PendingRecruit.findAdminRecruits",
+        query = """
+        SELECT 
+            pr.id AS id,
+            d.nom AS developerName,
+            d.pfp_url AS developerImage,
+            d.email AS developerEmail,
+            t.title AS testTitle,
+            t.language AS testLanguage,
+            pr.test_score AS testScore,
+            pr.status AS status,
+            TO_CHAR(pr.submit_date, 'DD/MM/YYYY HH24:MI') AS formattedSubmitDate, 
+            pr.cv_url AS cvUrl,
+            d.id AS developerId
+        FROM pending_recruit pr
+        JOIN utilisateur d ON pr.developer_id = d.id
+        JOIN test t ON pr.test_id = t.id
+    """,
+        resultSetMapping = "AdminPendingRecruitMapping"
+)
 public class PendingRecruit {
 
     @Id
