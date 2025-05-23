@@ -50,11 +50,13 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(authorize ->
                         authorize
-                                .requestMatchers("/api/**", "/uploads/**", "/pdf/**", "/ws/**",
+                                .requestMatchers("/api/**", "/uploads/**","/ws/**",
                                         "/v3/api-docs/**",
                                         "/swagger-ui/**",
-                                        "/swagger-ui.html").permitAll()
-                                .requestMatchers("/api/recruitments").authenticated()
+                                        "/swagger-ui.html",
+                                        "/api/recruitments/**",
+                                        "api/notifications"
+                                ).permitAll()
                                 .requestMatchers("/api/dev").authenticated()
                                 .anyRequest().authenticated()
                 )

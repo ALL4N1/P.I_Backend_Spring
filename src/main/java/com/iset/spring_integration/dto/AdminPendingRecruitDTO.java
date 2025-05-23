@@ -3,6 +3,7 @@ package com.iset.spring_integration.dto;
 import com.iset.spring_integration.entities.PendingRecruit;
 import lombok.Data;
 
+import java.beans.ConstructorProperties;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -19,7 +20,42 @@ public class AdminPendingRecruitDTO {
     private String status;
     private String formattedSubmitDate;
     private String cvUrl;
+    private Long developerId; // Ajoutez ce cham
 
+    @ConstructorProperties({
+            "id",
+            "developerName",
+            "developerImage",
+            "developerEmail",
+            "testTitle",
+            "testLanguage",
+            "testScore",
+            "status",
+            "formattedSubmitDate",
+            "cvUrl",
+            "developerId"
+    })
+    public AdminPendingRecruitDTO(Long id, String developerName, String developerImage, String developerEmail, String testTitle, String testLanguage, Double testScore, String status, String formattedSubmitDate, String cvUrl, Long developerId) {
+        this.id = id;
+        this.developerName = developerName;
+        this.developerImage = developerImage;
+        this.developerEmail = developerEmail;
+        this.testTitle = testTitle;
+        this.testLanguage = testLanguage;
+        this.testScore = testScore;
+        this.status = status;
+        this.formattedSubmitDate = formattedSubmitDate;
+        this.cvUrl = cvUrl;
+        this.developerId = developerId;
+    }
+
+    public Long getDeveloperId() {
+        return developerId;
+    }
+
+    public void setDeveloperId(Long developerId) {
+        this.developerId = developerId;
+    }
 
     public AdminPendingRecruitDTO() {
         // Constructeur par défaut nécessaire pour la désérialisation
