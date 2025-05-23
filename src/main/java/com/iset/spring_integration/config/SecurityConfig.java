@@ -55,7 +55,8 @@ public class SecurityConfig {
                                         "/swagger-ui/**",
                                         "/swagger-ui.html",
                                         "/api/recruitments/**",
-                                        "api/notifications"
+                                        "api/notifications",
+                                        "api/auth/login"
                                 ).permitAll()
                                 .requestMatchers("/api/dev").authenticated()
                                 .anyRequest().authenticated()
