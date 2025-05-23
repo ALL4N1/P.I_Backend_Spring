@@ -18,8 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -31,37 +31,42 @@ public class SecurityConfig {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtFilter jwtFilter;
     private final UtilisateurService customUserDetailsService;
+    private final CorsConfigurationSource corsConfigurationSource;
 
     @Autowired
     public SecurityConfig(BCryptPasswordEncoder bCryptPasswordEncoder,
                           JwtFilter jwtFilter,
-                          UtilisateurService customUserDetailsService) { // ✅ Modification ici
+                          UtilisateurService customUserDetailsService,
+                          CorsConfigurationSource corsConfigurationSource) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.jwtFilter = jwtFilter;
-        this.customUserDetailsService = customUserDetailsService; // ✅
+        this.customUserDetailsService = customUserDetailsService;
+        this.corsConfigurationSource = corsConfigurationSource;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(withDefaults())
-                .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/ws/**", "/api/**") // Autoriser WebSocket sans CSRF
+                .cors(cors -> cors.configurationSource(corsConfigurationSource))
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(
+                                "/api/auth/login",
+                                "/api/auth/register",
+                                "/api/auth/update_pfp",
+                                "/uploads/**",
+                                "/ws/**",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/api/recruitments/**",
+                                "/api/notifications"
+                        ).permitAll()
+                        .requestMatchers("/api/dev").authenticated()
+                        .anyRequest().authenticated()
                 )
-                .authorizeHttpRequests(authorize ->
-                        authorize
-                                .requestMatchers("/api/**", "/uploads/**","/ws/**",
-                                        "/v3/api-docs/**",
-                                        "/swagger-ui/**",
-                                        "/swagger-ui.html",
-                                        "/api/recruitments/**",
-                                        "api/notifications"
-                                ).permitAll()
-                                .requestMatchers("/api/dev").authenticated()
-                                .anyRequest().authenticated()
-                )
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
@@ -81,7 +86,7 @@ public class SecurityConfig {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(customUserDetailsService); // ✅ Utilisation du service custom
+        provider.setUserDetailsService(customUserDetailsService);
         provider.setPasswordEncoder(bCryptPasswordEncoder);
         return provider;
     }
